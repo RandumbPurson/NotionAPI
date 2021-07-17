@@ -18,7 +18,7 @@ class NotionAPI(object):
 			}
 
 	# Combine root url and type/url
-	def endpoint_url(self, element_type, element_id = ""):
+	def get_endpoint(self, element_type, element_id = ""):
 		'''
 		element_type string conversion:
 			DATABASE = "databases"
@@ -37,7 +37,7 @@ class NotionAPI(object):
 	def get_element(self, element_type, element_id = "", page_size=100):
 
 		# Get endpoint url
-		endpoint = self.endpoint_url(element_type, element_id)
+		endpoint = self.get_endpoint(element_type, element_id)
 		if element_type == BLOCK: # Add tail to url for getting block children
 			endpoint = endpoint + "/children?page_size="+str(page_size)
 
@@ -55,7 +55,7 @@ class NotionAPI(object):
 			return
 
 		# Get endpoint url
-		endpoint = self.endpoint_url(PAGE)
+		endpoint = self.get_endpoint(PAGE)
 		# Update headers for the json dump
 		headers = self.default_headers
 		headers.update({"Content-Type": "application/json"})
@@ -124,7 +124,7 @@ class Block(Structures):
 		# all blocks initially unlinked
 		self.linked = False
 
-	# Arrange variables into a JSON dict
+	# get properties in a properly formatted JSON obj
 	def get_json(self, content_only = True):
 		# set content as output
 		json_dict = self.content

@@ -1,0 +1,13 @@
+{
+	"name": "@randumbpurson/notion-api-helper",
+	"version": "1.0.0",
+	"description": "A helper package to access the Notion API",
+	"author": {
+		"name": "Emma Fountain",
+		"email": "emmettftn@icloud.com"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"axios": "^0.21.1"
+	}
+}
