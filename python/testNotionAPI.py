@@ -1,9 +1,9 @@
-import NotionAPI as n
+import integration as n
 
 auth_key = "secret_emSRLcKVXYCmk4x7KPybcElNrgl08FweoLleURa2upq"
-version = "2021-05-13"
+version = "2021-08-16"
 
-notion = n.NotionAPI(auth_key, version)
+notion = n.Integration(auth_key, version)
 
 id_root = "55674e0b64054b3d862699f788d80378"
 raw_root = notion.get_element(n.PAGE, element_id = id_root)
