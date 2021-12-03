@@ -83,7 +83,7 @@ class Block(BasicStructures):
  		self.content.update({key : val})
 
  	# Set linking variables
-	def link_notion(self, uuid = None, parent_type = -1, parent_id = None):
+	def link_notion(self, uuid = None, parent_type = None, parent_id = None):
 
 		self.uuid = uuid
 		self.parent_type = parent_type
@@ -124,7 +124,7 @@ class Page(Block):
 	# No required parameters
 	def __init__(self, properties = {}, children = []):
 		# set content to provided values
-		content = {"properties":properties, "children":children}
+		self.content = {"properties":properties, "children":children}
 
 		super().__init__("child_page", content)
 
