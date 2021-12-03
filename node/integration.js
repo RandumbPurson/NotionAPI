@@ -5,7 +5,7 @@ const [DATABASE, PAGE, BLOCK, USER] = [0, 1, 2, 3]
 
 // A class to simplify interaction with notion's API by using Block objects
 
-class APIHelper {
+class Integration {
 
 	// Provide auth_key and version at init
 	constructor(auth_key, version){
@@ -69,7 +69,7 @@ class APIHelper {
 }
 
 module.exports = {
-	APIHelper,
+	Integration,
 	DATABASE,
 	PAGE,
 	BLOCK,

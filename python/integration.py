@@ -4,7 +4,7 @@ import requests
 DATABASE, PAGE, BLOCK, USER = 0, 1, 2, 3
 
 # A class to simplify interaction with notion's API by using Block objects
-class APIHelper(object):
+class Integration(object):
 
 	# Provide auth_key and version at init
 	def __init__(self, auth_key, version):
