@@ -1,10 +1,14 @@
-const { Notion, DATABASE, PAGE,
+const { 
+	Integration, 
+	DATABASE, 
+	PAGE, 
 	BLOCK,
-	USER } = require('./APIHelper');
+	USER 
+} = require('./integration');
 const {text, rich_text, Block, Page} = require('./structures');
 
 module.exports = {
-	Notion,
+	Integration,
 	DATABASE,
 	PAGE,
 	BLOCK,

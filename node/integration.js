@@ -9,7 +9,7 @@ class Integration {
 
 	// Provide auth_key and version at init
 	constructor(auth_key, version){
-		this.notion = axios.create({
+		this.integration = axios.create({
 			baseURL: "https://api.notion.com/v1/",
 			headers:{ // Set default headers w/ authkey + version
 				"Authorization" : `Bearer ${String(auth_key)}`,
@@ -41,7 +41,7 @@ class Integration {
 			endpoint = `${endpoint}/children?page_size=${String(page_size)}`;
 		}
 		//Perform https get
-		const response = await this.notion.get(endpoint);
+		const response = await this.integration.get(endpoint);
 		return response;
 	}
 
@@ -56,7 +56,7 @@ class Integration {
 		// Get endpoint url
 		let endpoint = this.get_endpoint(PAGE);
 		// perform https post with proper headers
-		const response = await this.notion.post(endpoint, page.get_json(false), {
+		const response = await this.integration.post(endpoint, page.get_json(false), {
 			headers: {
 				"Content-Type": "application/json"
 			}
