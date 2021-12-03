@@ -1,5 +1,8 @@
 const util = require('util')
-class Structures {
+
+// Provides common json structures 
+class BasicStructures {
+
 	// Provides the value of a JSON "text" key-value pair
 	static text(text, link=undefined){
 		// set content to the provided text
@@ -16,7 +19,7 @@ class Structures {
 		// create basic structure
 		var rich_text_obj = {
 				"type": "text",
-				"text": Structures.text(text, link),
+				"text": BasicStructures.text(text, link),
 				"annotations": {
 					"color": color
 				}
@@ -37,7 +40,6 @@ class Structures {
 					delete annotations[arg]
 				}
 		}
-		console.log(annotations)
 
 		// update the final dict with all the annotations that were modified
 		rich_text_obj["annotations"] = annotations;
@@ -45,7 +47,8 @@ class Structures {
 	}
 }
 
-class Block extends Structures {
+// Basic element in notion
+class Block extends BasicStructures {
 
 	// Requires block type at init
 	constructor(block_type, content = {}, metadata = {}){
@@ -68,21 +71,21 @@ class Block extends Structures {
 	// get properties in a properly formatted JSON obj
 	get_json(content_only=true) {
 		// set default out to content
-		var out_obj = this.content;
+		var json_obj = this.content;
 
 		// if content_only = false, include metadata && uuid
 		if (!content_only){
-			out_obj = Object.assign(out_obj, this.metadata);
+			json_obj = Object.assign(json_obj, this.metadata);
 			if (this.linked == true){
 				console.log('link data2:' + util.inspect(this.link_data,  {showHidden: false, depth: null}));
-				out_obj = Object.assign(out_obj, this.link_data);
+				json_obj = Object.assign(json_obj, this.link_data);
 				if (this.uuid !== undefined){
-					out_obj['id'] = this.uuid;
+					json_obj['id'] = this.uuid;
 				}
 			}
 		}
-		console.log(out_obj)
-		return out_obj
+		console.log(json_obj)
+		return json_obj
 
 	}
 
@@ -108,50 +111,54 @@ class Block extends Structures {
 			DATABASE = "database_id"
 			PAGE = "page_id"
 		*/
-		var parent_types = ["database_id", "page_id"]
+		var parent_types = ["database_id", "page_id"];
 
 		// if uuid provided add to link data
 		if (this.uuid !== undefined) {
 			this.link_data['id'] = this.uuid;
 		}
 
+		// if parent type and id are provided, add to 'link_data'
 		if (this.parent_type !== undefined && this.parent_id !== undefined){
 			var type = parent_types[this.parent_type];
 			this.link_data = {
 				'parent': {}
 			};
-			this.link_data['parent'][type] = parent_id;
+			this.link_data['parent'][type] = this.parent_id;
 		}
 		this.linked = true;
 
-		console.log('link data:' + util.inspect(this.link_data,  {showHidden: false, depth: null}));
+		// console.log('link data:' + util.inspect(this.link_data,  {showHidden: false, depth: null}));
 	}
 }
 
+// PAge object
 class Page extends Block{
 	constructor(properties = {}, children = []) {
 		//set content to provided values
 		super("child_page", {"properties": properties, "children": children});
 	}
 
+	// Set the title property
 	set_title(title){
 		this.content["properties"]["text"] = {
 		  	"title": [
 		  		{
 		  			"type": "text",
-		  			"text": Structures.text(title)
+		  			"text": BasicStructures.text(title)
 		  		}]
 		}
 	}
 
+	// Set arbitrary property 'key' to arbitrary value 'val'
 	set_prop(key, val){
 		this.content['properties'][key] = val;
 	}
 }
 
 module.exports = {
-	text: Structures.text,
-	rich_text: Structures.rich_text,
+	text: BasicStructures.text,
+	rich_text: BasicStructures.rich_text,
 	Block,
 	Page
 }
